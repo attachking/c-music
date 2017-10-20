@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import recommend from '../components/recommend/recommend.vue'
 
 Vue.use(Router)
 
@@ -8,8 +8,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: HelloWorld
+      redirect: '/recommend'
+    },
+    {
+      path: '/recommend',
+      name: 'recommend',
+      component: recommend
     }
   ]
 })
