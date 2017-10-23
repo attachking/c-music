@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "better-scroll": "^0.1.15",
     "bluebird": "^3.5.1",
     "fastclick": "^1.0.6",
     "jquery": "^3.2.1",

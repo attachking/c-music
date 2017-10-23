@@ -1,9 +1,13 @@
 import mHeader from './m-header/m-header.vue'
 import tab from './tab/tab.vue'
+import slider from './slider/slider.vue'
+import scroll from './scroll/scroll.vue'
 
 let components = [
   mHeader,
-  tab
+  tab,
+  slider,
+  scroll
 ]
 
 export default {
