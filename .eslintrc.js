@@ -27,7 +27,7 @@ module.exports = {
     //函数括号 ( 前是否需要空格
     'space-before-function-paren': 0,
     //空行最多不能超过一行
-    "no-multiple-empty-lines": [1, {"max": 1}]
+    'no-multiple-empty-lines': [1, {'max': 1}]
   }
 }
 /*

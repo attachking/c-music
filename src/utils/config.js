@@ -6,3 +6,4 @@ export const baseParams = {
   format: 'jsonp'
 }
 export const ERR_OK = 0
+export const AGENT = 'http://60.205.177.230:23333'

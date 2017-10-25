@@ -23,7 +23,7 @@
 </script>
 
 <style scoped lang="less">
-  @import '../../styles/_vars.less';
+  @import '../../common/styles/_vars.less';
   .tab{
     display: flex;
     height: 44px;

@@ -123,7 +123,7 @@
   }
 </script>
 <style scoped lang="less">
-  @import "../../styles/_vars.less";
+  @import "../../common/styles/_vars.less";
 
   .slider {
     min-height: 1px;

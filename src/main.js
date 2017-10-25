@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import bluebird from 'bluebird'
 import components from './components'
-import './styles/index.less'
+import './common/styles/index.less'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
 
