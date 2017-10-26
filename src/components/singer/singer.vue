@@ -1,11 +1,13 @@
 <template>
   <div class="singer">
-    <list-view :data="singerList"></list-view>
+    <list-view :data="singerList" @select="setSinger"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 <script>
   import {jsonp} from '../../utils/http'
   import {Singer} from '../../common/js/clazz'
+  import {mapMutations} from 'vuex'
 
   const HOT_NAME = '热门'
   const HOT_SINGER_LEN = 10
@@ -22,6 +24,9 @@
       }
     },
     methods: {
+      ...mapMutations({
+        setSinger: 'SET_SINGER'
+      }),
       getSingerList() {
         jsonp('https://c.y.qq.com/v8/fcg-bin/v8.fcg', Object.assign({
           channel: 'singer',

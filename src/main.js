@@ -6,6 +6,7 @@ import components from './components'
 import './common/styles/index.less'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
+import store from './store'
 
 window.Promise = bluebird
 fastclick.attach(document.body)
@@ -19,5 +20,6 @@ Vue.use(VueLazyLoad, {
 new Vue({
   el: '#app',
   router,
-  render: h => h(App)
+  render: h => h(App),
+  store
 })

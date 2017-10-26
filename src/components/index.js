@@ -4,6 +4,8 @@ import slider from '../base/slider/slider.vue'
 import scroll from '../base/scroll/scroll.vue'
 import loading from '../base/loading/loading.vue'
 import listView from '../base/list-view/list-view.vue'
+import musicList from './music-list/music-list.vue'
+import songsList from '../base/songs-list/songs-list.vue'
 
 let components = [
   mHeader,
@@ -11,7 +13,9 @@ let components = [
   slider,
   scroll,
   loading,
-  listView
+  listView,
+  musicList,
+  songsList
 ]
 
 export default {
