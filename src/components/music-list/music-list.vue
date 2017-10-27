@@ -19,7 +19,10 @@
   </div>
 </template>
 <script>
+  import {prefixStyle} from '../../common/js/dom'
+
   const RESOLVED_HEIGHT = 40
+  const transform = prefixStyle('transform')
 
   export default {
     name: 'music-list',
@@ -40,7 +43,7 @@
     mounted() {
       this.imgHeight = this.$refs.bgImage.clientHeight
       this.minHeight = -this.imgHeight + RESOLVED_HEIGHT
-      // scroll为自定义组件,需要加上$el
+      // scroll为自定义组件,需要加上$el来获取dom
       this.$refs.list.$el.style.top = `${this.imgHeight}px`
     },
     computed: {
@@ -55,8 +58,31 @@
         this.$router.back()
       },
       scroll(pos) {
+        let zIndex = 0
+        let blur = 0
+        let scale = 1
         let translate = Math.max(pos.y, this.minHeight)
-        this.$refs.layer.style.transform = `translate(0, ${translate}px)`
+        this.$refs.layer.style[transform] = `translate(0, ${translate}px)`
+        if (pos.y < this.minHeight) {
+          zIndex = 10
+          this.$refs.bgImage.style['paddingTop'] = 0
+          this.$refs.bgImage.style['height'] = `${RESOLVED_HEIGHT}px`
+        } else {
+          this.$refs.bgImage.style['paddingTop'] = '70%'
+          this.$refs.bgImage.style['height'] = 0
+        }
+        if (pos.y > 0) {
+          let percent = Math.abs(pos.y / this.imgHeight)
+          scale = 1 + percent
+          zIndex = 10
+          blur = Math.min(percent * 20, 20)
+        } else {
+          this.$refs.bgImage.style[transform] = 1
+        }
+        this.$refs.bgImage.style[transform] = `scale(${scale})`
+        this.$refs.bgImage.style['zIndex'] = zIndex
+        // 高斯模糊处理(ios)
+        this.$refs.filter.style['backdropFilter'] = `blur(${blur}px)`
       }
     }
   }
