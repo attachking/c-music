@@ -168,7 +168,7 @@
       pre() {
         if (!this.songReady) return
         let index = this.currentIndex - 1
-        if (this.currentIndex === -1) index = this.playList.length - 1
+        if (index === -1) index = this.playList.length - 1
         this.setCurrentIndex(index)
         this.songReady = false
       },
