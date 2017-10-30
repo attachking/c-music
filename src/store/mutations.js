@@ -10,19 +10,19 @@ const mutations = {
   [types.SET_PLAYING](state, o) {
     state.playing = o
   },
-  [types.SET_FULLSCREEN](state, o) {
+  [types.SET_FULL_SCREEN](state, o) {
     state.fullScreen = o
   },
   [types.SET_PLAYLIST](state, o) {
     state.playList = o
   },
-  [types.SET_SEQUENCELIST](state, o) {
+  [types.SET_SEQUENCE_LIST](state, o) {
     state.sequenceList = o
   },
   [types.SET_MODE](state, o) {
     state.mode = o
   },
-  [types.SET_CURRENTINDEX](state, o) {
+  [types.SET_CURRENT_INDEX](state, o) {
     state.currentIndex = o
   }
 }

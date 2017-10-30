@@ -16,7 +16,7 @@
     <div class="bg-layer" ref="layer"></div>
     <scroll :data="songs" :probe-type="3" :listen-scroll="true" @scroll="scroll" class="list" ref="list">
       <div class="song-list-wrapper">
-        <songs-list :songs="songs"></songs-list>
+        <songs-list :songs="songs" @select="select"></songs-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
@@ -26,6 +26,7 @@
 </template>
 <script>
   import {prefixStyle} from '../../common/js/dom'
+  import {mapActions} from 'vuex'
 
   const RESOLVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -72,6 +73,9 @@
       }
     },
     methods: {
+      ...mapActions([
+        'selectPlay'
+      ]),
       back() {
         this.$router.back()
       },
@@ -103,6 +107,12 @@
         this.$refs.bgImage.style['zIndex'] = zIndex
         // 高斯模糊处理(ios)
         this.$refs.filter.style['backdropFilter'] = `blur(${blur}px)`
+      },
+      select(song, index) {
+        this.selectPlay({
+          list: this.songs,
+          index: index
+        })
       }
     }
   }

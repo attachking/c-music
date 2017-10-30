@@ -6,6 +6,7 @@ import loading from '../base/loading/loading.vue'
 import listView from '../base/list-view/list-view.vue'
 import musicList from './music-list/music-list.vue'
 import songsList from '../base/songs-list/songs-list.vue'
+import player from './player/player.vue'
 
 let components = [
   mHeader,
@@ -15,7 +16,8 @@ let components = [
   loading,
   listView,
   musicList,
-  songsList
+  songsList,
+  player
 ]
 
 export default {

@@ -1,6 +1,6 @@
 <template>
-  <div class="singer">
-    <list-view :data="singerList" @select="setSinger"></list-view>
+  <div class="singer" ref="singer">
+    <list-view :data="singerList" @select="setSinger" ref="list"></list-view>
     <router-view></router-view>
   </div>
 </template>
@@ -8,12 +8,14 @@
   import {jsonp} from '../../utils/http'
   import {Singer} from '../../common/js/clazz'
   import {mapMutations} from 'vuex'
+  import {playListMixin} from '../../common/js/mixin'
 
   const HOT_NAME = '热门'
   const HOT_SINGER_LEN = 10
 
   export default {
     name: 'singer',
+    mixins: [playListMixin],
     data() {
       return {
         search: {
@@ -78,6 +80,10 @@
           return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         this.singerList = hots.concat(nor)
+      },
+      handlePlayList(playList) {
+        this.$refs.singer.style.bottom = playList.length > 0 ? '60px' : 0
+        this.$refs.list.refresh()
       }
     },
     mounted() {

@@ -7,6 +7,7 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
+    <play></play>
   </div>
 </template>
 
@@ -15,7 +16,3 @@ export default {
   name: 'app'
 }
 </script>
-
-<style>
-
-</style>

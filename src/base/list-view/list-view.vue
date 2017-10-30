@@ -131,6 +131,9 @@
           }
         })
         this.$emit('select', singer)
+      },
+      refresh() {
+        this.$refs.listview.refresh()
       }
     },
     watch: {
