@@ -1,14 +1,14 @@
+import 'babel-polyfill'
+// 启用插件 babel-plugin-transform-runtime 后，Babel 就会使用 babel-runtime 下的工具函数
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import bluebird from 'bluebird'
 import components from './components'
 import './common/styles/index.less'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
 import store from './store'
 
-window.Promise = bluebird
 fastclick.attach(document.body)
 
 Vue.use(components)

@@ -12,8 +12,7 @@
           <h1 class="title" v-html="currentSong.name"></h1>
           <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
-        <div class="middle" @touchstart.prevent="middleTouchStart" @touchmove.prevent="middleTouchMove"
-             @touchend="middleTouchEnd">
+        <div class="middle" @touchstart.prevent="middleTouchStart" @touchmove.prevent="middleTouchMove" @touchend="middleTouchEnd">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">
@@ -36,23 +35,23 @@
             <span class="dot"></span>
           </div>
           <div class="progress-wrapper">
-            <span class="time time-l"></span>
+            <span class="time time-l">{{timeFormat(currentTime)}}</span>
             <div class="progress-bar-wrapper">
-
+              <progress-bar :percent="percent" @progress-change="progressChange"></progress-bar>
             </div>
-            <span class="time time-r"></span>
+            <span class="time time-r">{{timeFormat(currentSong.duration)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left">
               <i></i>
             </div>
-            <div class="icon i-left">
+            <div class="icon i-left" :class="disabledClass">
               <i class="icon-prev" @click="pre"></i>
             </div>
-            <div class="icon i-center">
+            <div class="icon i-center" :class="disabledClass">
               <i :class="playIcon" @click="play"></i>
             </div>
-            <div class="icon i-right">
+            <div class="icon i-right" :class="disabledClass">
               <i class="icon-next" @click="next"></i>
             </div>
             <div class="icon i-right">
@@ -65,27 +64,30 @@
     <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img width="40" height="40" :src="currentSong.image">
+          <img width="40" height="40" :src="currentSong.image" :class="cdCls">
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
-          <i @click.stop="play" class="icon-mini" :class="miniIcon"></i>
+          <progress-circle :radius="32" :percent="percent">
+            <i @click.stop="play" class="icon-mini" :class="miniIcon"></i>
+          </progress-circle>
         </div>
         <div class="control">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
-    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime"></audio>
+    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime" @error="error" @ended="end"></audio>
   </div>
 </template>
 <script>
   import {mapGetters, mapMutations} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from '../../common/js/dom'
+  import {playMode} from '../../utils/config'
 
   const transform = prefixStyle('transform')
 
@@ -113,12 +115,23 @@
           return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
         }
       },
+      disabledClass: {
+        get() {
+          return this.songReady ? '' : 'disable'
+        }
+      },
+      percent: {
+        get() {
+          return this.currentTime / this.currentSong.duration
+        }
+      },
       ...mapGetters([
         'fullScreen',
         'playList',
         'currentSong',
         'playing',
-        'currentIndex'
+        'currentIndex',
+        'mode'
       ])
     },
     methods: {
@@ -185,6 +198,26 @@
       updateTime(e) {
         this.currentTime = e.target.currentTime
       },
+      error() {
+        this.songReady = true
+      },
+      end() {
+        if (this.mode === playMode.sequence) {
+          this.next()
+        } else if (this.mode === playMode.loop) {
+          this.$refs.audio.currentTime = 0
+        }
+      },
+      timeFormat(time) {
+        time = time | 0
+        let minute = time / 60 | 0
+        let second = time % 60
+        if (second < 10) second = '0' + second
+        return `${minute}:${second}`
+      },
+      progressChange(percent) {
+        this.$refs.audio.currentTime = percent * this.currentSong.duration
+      },
       middleTouchStart() {
       },
       middleTouchMove() {
@@ -222,6 +255,7 @@
         if (newVal.id === oldVal.id) return
         this.$nextTick(() => {
           if (this.playing) this.$refs.audio.play()
+          this.currentTime = 0
         })
       }
     }
