@@ -7,6 +7,8 @@ import listView from '../base/list-view/list-view.vue'
 import musicList from './music-list/music-list.vue'
 import songsList from '../base/songs-list/songs-list.vue'
 import player from './player/player.vue'
+import progressBar from '../base/progress-bar/progress-bar.vue'
+import progressCircle from '../base/progress-circle/progress-circle.vue'
 
 let components = [
   mHeader,
@@ -17,7 +19,9 @@ let components = [
   listView,
   musicList,
   songsList,
-  player
+  player,
+  progressBar,
+  progressCircle
 ]
 
 export default {

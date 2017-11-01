@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="discList">
       <div>
         <div class="slider-wrapper" ref="sliderWrapper">
@@ -36,9 +36,11 @@
 <script>
   import {jsonp, post} from '../../utils/http'
   import {ERR_OK, baseParams} from '../../utils/config'
+  import {playListMixin} from '../../common/js/mixin'
 
   export default {
     name: 'recommend',
+    mixins: [playListMixin],
     data() {
       return {
         sliders: [],
@@ -81,9 +83,14 @@
           })
         ).then(data => {
           this.discList = data.data.list
-        }).finally(() => {
+          this.loading = false
+        }).catch(() => {
           this.loading = false
         })
+      },
+      handlePlayList(list) {
+        this.$refs.recommend.style.bottom = list.length > 0 ? '60px' : 0
+        this.$refs.scroll.refresh()
       }
     },
     mounted() {

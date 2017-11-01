@@ -1,5 +1,5 @@
 <template>
-  <div class="music-list">
+  <div class="music-list" ref="musicList">
     <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
@@ -27,12 +27,14 @@
 <script>
   import {prefixStyle} from '../../common/js/dom'
   import {mapActions} from 'vuex'
+  import {playListMixin} from '../../common/js/mixin'
 
   const RESOLVED_HEIGHT = 40
   const transform = prefixStyle('transform')
 
   export default {
     name: 'music-list',
+    mixins: [playListMixin],
     props: {
       bgImage: {
         type: String,
@@ -113,6 +115,10 @@
           list: this.songs,
           index: index
         })
+      },
+      handlePlayList(list) {
+        this.$refs.list.$el.style.bottom = list.length > 0 ? '60px' : 0
+        this.$refs.list.refresh()
       }
     }
   }

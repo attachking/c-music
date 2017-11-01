@@ -1,3 +1,4 @@
+<!--歌手列表组件-->
 <template>
   <scroll :data="data" class="listview" ref="listview" :listen-scroll="true" @scroll="listenScroll" :probe-type="3">
     <ul>
