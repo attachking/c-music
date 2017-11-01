@@ -117,7 +117,7 @@
         })
       },
       handlePlayList(list) {
-        this.$refs.musicList.style.bottom = list.length > 0 ? '60px' : 0
+        this.$refs.list.$el.style.bottom = list.length > 0 ? '60px' : 0
         this.$refs.list.refresh()
       }
     }

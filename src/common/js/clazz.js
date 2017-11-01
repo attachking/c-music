@@ -1,3 +1,7 @@
+import {post} from '../../utils/http'
+import {baseParams, ERR_OK} from '../../utils/config'
+import {Base64} from 'js-base64'
+
 export class Singer {
   constructor({id, name}) {
     this.id = id
@@ -16,6 +20,39 @@ export class Song {
     this.duration = duration
     this.image = image
     this.url = url
+  }
+  getLyric() {
+    if (this.lyric) {
+      return Promise.resolve(this.lyric)
+    }
+    return post('/users/agent', Object.assign({}, baseParams, {
+      songmid: this.mid,
+      platform: 'yqq',
+      hostUin: 0,
+      needNewCode: 0,
+      categoryId: 10000000,
+      pcachetime: +new Date(),
+      format: 'json',
+      url: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+      method: 'get',
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    })).then(res => {
+      try {
+        res = JSON.parse(res.replace(/(\w+\()|(\))/g, ''))
+      } catch (err) {
+        res = {}
+      }
+      if (res.code === ERR_OK) {
+        this.lyric = Base64.decode(res.lyric)
+        return Promise.resolve(this.lyric)
+      } else {
+        return Promise.reject(new Error('error format'))
+      }
+    }).catch((err) => {
+      this.lyric = 'no lyric'
+      return Promise.reject(err)
+    })
   }
 }
 

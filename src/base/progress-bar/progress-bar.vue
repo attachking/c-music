@@ -2,7 +2,7 @@
   <div class="progress-bar" ref="progressBar" @click.prevent="progressClick">
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
-      <div class="progress-btn-wrapper" ref="progressBtn" @touchstart.stop.prevent="touchStart" @touchmove.stop.prevent="touchMove" @touchend.stop.prevent="touchEnd">
+      <div class="progress-btn-wrapper" ref="progressBtn" @touchstart.stop.prevent="touchStart" @touchmove.stop.prevent="touchMove" @touchend.stop.prevent="touchEnd" @click.stop>
         <div class="progress-btn"></div>
       </div>
     </div>
@@ -31,12 +31,15 @@
       },
       touchMove(e) {
         if (!this.touch.status) return
+        this.touch.isMove = true
         let barWidth = this.$refs.progressBar.clientWidth
         this.progressBarChange(e.touches[0].pageX - (window.innerWidth - barWidth) / 2)
       },
       touchEnd(e) {
+        if (!this.touch.isMove) return
         let barWidth = this.$refs.progressBar.clientWidth
         this.touch.status = false
+        this.touch.isMove = false
         this.$emit('progress-change', this.offset / barWidth)
       },
       progressClick(e) {

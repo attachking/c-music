@@ -10,7 +10,9 @@ export const playListMixin = {
     this.handlePlayList(this.playList)
   },
   activated() {
-    this.handlePlayList(this.playList)
+    this.$nextTick(() => {
+      this.handlePlayList(this.playList)
+    })
   },
   watch: {
     playList(newVal) {
