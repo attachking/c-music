@@ -27,6 +27,7 @@
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
                 <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}" v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
+                <p class="text" v-if="!currentLyric.lines.length">暂无歌词</p>
               </div>
             </div>
           </scroll>
@@ -257,6 +258,10 @@
         this.songReady = false
         this.currentSong.getLyric().then(lyric => {
           this.currentLyric = new Lyric(lyric, this.handleLyric)
+          // 纯音乐时无歌词处理
+          if (/\[00:00:00]/.test(lyric) && !this.currentLyric.lines.length) {
+            this.playingLyric = lyric.replace(/\[00:00:00]/, '')
+          }
           if (this.playing) {
             this.currentLyric.play()
             this.currentLyric.seek(this.currentTime * 1000)
@@ -300,20 +305,24 @@
             offsetX = -window.innerWidth
             this.currentShow = 'lyric'
             this.$refs.middleL.style['opacity'] = 0
+            this.touch.percent = 1
           } else {
             offsetX = 0
             this.currentShow = 'cd'
             this.$refs.middleL.style['opacity'] = 1
+            this.touch.percent = 0
           }
         } else {
           if (this.touch.percent < 0.8) {
             offsetX = 0
             this.currentShow = 'cd'
             this.$refs.middleL.style['opacity'] = 1
+            this.touch.percent = 0
           } else {
             offsetX = -window.innerWidth
             this.currentShow = 'lyric'
             this.$refs.middleL.style['opacity'] = 0
+            this.touch.percent = 1
           }
         }
         this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetX}px, 0, 0)`
