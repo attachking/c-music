@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div ref="playBtn" v-show="playShow" class="play">
+        <div ref="playBtn" v-show="playShow" class="play" @click="randomPlay">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -16,7 +16,7 @@
     <div class="bg-layer" ref="layer"></div>
     <scroll :data="songs" :probe-type="3" :listen-scroll="true" @scroll="scroll" class="list" ref="list">
       <div class="song-list-wrapper">
-        <songs-list :songs="songs" @select="select"></songs-list>
+        <songs-list :rank="rank" :songs="songs" @select="select"></songs-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
@@ -26,8 +26,9 @@
 </template>
 <script>
   import {prefixStyle} from '../../common/js/dom'
-  import {mapActions} from 'vuex'
+  import {mapActions, mapMutations} from 'vuex'
   import {playListMixin} from '../../common/js/mixin'
+  import {playMode} from '../../utils/config'
 
   const RESOLVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -47,6 +48,10 @@
       title: {
         type: String,
         default: ''
+      },
+      rank: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -65,7 +70,7 @@
       this.imgHeight = this.$refs.bgImage.clientHeight
       this.minHeight = -this.imgHeight + RESOLVED_HEIGHT
       // scroll为自定义组件,需要加上$el来获取dom
-      this.$refs.list.$el.style.top = `${this.imgHeight}px`
+      this.$refs.list && (this.$refs.list.$el.style.top = `${this.imgHeight}px`)
     },
     computed: {
       bgStyle: {
@@ -78,6 +83,9 @@
       ...mapActions([
         'selectPlay'
       ]),
+      ...mapMutations({
+        setMode: 'SET_MODE'
+      }),
       back() {
         this.$router.back()
       },
@@ -116,9 +124,17 @@
           index: index
         })
       },
+      randomPlay() {
+        let index = Math.floor(Math.random() * this.songs.length)
+        this.selectPlay({
+          list: this.songs,
+          index: index
+        })
+        this.setMode(playMode.random)
+      },
       handlePlayList(list) {
-        this.$refs.list.$el.style.bottom = list.length > 0 ? '60px' : 0
-        this.$refs.list.refresh()
+        this.$refs.list && (this.$refs.list.$el.style.bottom = list.length > 0 ? '60px' : 0)
+        this.$refs.list && this.$refs.list.refresh()
       }
     }
   }

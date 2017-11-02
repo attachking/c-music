@@ -24,6 +24,12 @@ const mutations = {
   },
   [types.SET_CURRENT_INDEX](state, o) {
     state.currentIndex = o
+  },
+  [types.SET_DISC](state, o) {
+    state.disc = o
+  },
+  [types.SET_TOP_LIST](state, o) {
+    state.topList = o
   }
 }
 

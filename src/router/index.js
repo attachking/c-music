@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import recommend from '../components/recommend/recommend.vue'
 import singer from '../components/singer/singer.vue'
 import singerDetail from '../components/singer-detail/singer-detail.vue'
+import disc from '../components/disc/disc.vue'
+import rank from '../components/rank/rank.vue'
+import topList from '../components/top-list/top-list.vue'
 
 Vue.use(Router)
 
@@ -15,7 +18,14 @@ export default new Router({
     {
       path: '/recommend',
       name: 'recommend',
-      component: recommend
+      component: recommend,
+      children: [
+        {
+          name: 'disc',
+          path: ':id',
+          component: disc
+        }
+      ]
     },
     {
       path: '/singer',
@@ -25,6 +35,16 @@ export default new Router({
         path: ':id',
         name: 'singerDetail',
         component: singerDetail
+      }]
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: rank,
+      children: [{
+        path: ':id',
+        name: 'topList',
+        component: topList
       }]
     }
   ]

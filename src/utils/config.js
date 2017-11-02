@@ -1,5 +1,5 @@
 export const baseParams = {
-  g_tk: 254797947,
+  g_tk: 2053054415,
   inCharset: 'utf-8',
   outCharset: 'utf-8',
   notice: 0,
