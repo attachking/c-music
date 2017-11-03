@@ -45,6 +45,11 @@
           platform: 'h5'
         })).then(res => {
           if (res.code === ERR_OK) {
+            for (let i = 0; i < res.data.topList.length; i++) {
+              if (res.data.topList[i].id === 201) {
+                res.data.topList.splice(i, 1)
+              }
+            }
             this.topList = res.data.topList
           }
         })

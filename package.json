@@ -1,7 +1,7 @@
 {
-  "name": "c-music",
+  "name": "music",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A Web Music Player for Mobile Phone",
   "author": "papachen <447334358@qq.com>",
   "private": true,
   "scripts": {
