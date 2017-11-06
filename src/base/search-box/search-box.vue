@@ -1,12 +1,14 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" v-model="query" class="box" :placeholder="placeholder"/>
+    <input ref="query" v-model="query" class="box" :placeholder="placeholder" @focus="focus"/>
     <i @click="clear" v-show="query" class="icon-dismiss"></i>
   </div>
 </template>
 <script>
   import {debounce} from '../../common/js/clazz'
+  import {event} from '../../utils/event'
+  import {mapMutations} from 'vuex'
 
   export default {
     name: 'search-box',
@@ -31,7 +33,13 @@
       },
       blur() {
         this.$refs.query.blur()
-      }
+      },
+      focus() {
+        this.setFocus(true)
+      },
+      ...mapMutations({
+        setFocus: 'SET_FOCUS'
+      })
     },
     created() {
       this.$watch('value', (newVal, oldVal) => {
@@ -40,6 +48,10 @@
       this.$watch('query', debounce((newVal) => {
         this.$emit('input', newVal)
       }, 200))
+      event.$on('inputBlur', () => {
+        this.setFocus(false)
+        this.blur()
+      })
     }
   }
 </script>

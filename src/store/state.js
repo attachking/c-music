@@ -2,6 +2,7 @@ import {playMode} from '../utils/config'
 
 const state = {
   author: 'chen',
+  focus: false,
   singer: {},
   playing: false,
   fullScreen: false,

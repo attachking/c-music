@@ -12,7 +12,8 @@
           <h1 class="title" v-html="currentSong.name"></h1>
           <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
-        <div class="middle" @touchstart.prevent="middleTouchStart" @touchmove.prevent="middleTouchMove" @touchend.prevent="middleTouchEnd">
+        <div class="middle" @touchstart.prevent="middleTouchStart" @touchmove.prevent="middleTouchMove"
+             @touchend.prevent="middleTouchEnd">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd" :class="cdCls">
@@ -26,7 +27,8 @@
           <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
-                <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}" v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
+                <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}"
+                   v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
                 <p class="text" v-if="!currentLyric.lines.length">暂无歌词</p>
               </div>
             </div>
@@ -83,7 +85,8 @@
         </div>
       </div>
     </transition>
-    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime" @error="error" @ended="end"></audio>
+    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime" @error="error"
+           @ended="end"></audio>
   </div>
 </template>
 <script>
@@ -228,6 +231,7 @@
         } else if (this.mode === playMode.loop) {
           this.loop()
         } else if (this.mode === playMode.random) {
+          // 随机播放
           let index = Math.floor(Math.random() * this.playList.length)
           this.setCurrentIndex(index)
           this.songReady = false
@@ -377,6 +381,14 @@
           this.getLyric()
           this.currentTime = 0
         }, 1000)
+      },
+      fullScreen(newVal) {
+        if (newVal) {
+          setTimeout(() => {
+            this.$refs.lyricList.refresh()
+            this.currentLyric.seek(this.currentTime * 1000)
+          }, 20)
+        }
       }
     }
   }

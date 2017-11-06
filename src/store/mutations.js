@@ -30,6 +30,9 @@ const mutations = {
   },
   [types.SET_TOP_LIST](state, o) {
     state.topList = o
+  },
+  [types.SET_FOCUS](state, o) {
+    state.focus = o
   }
 }
 

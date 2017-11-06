@@ -15,12 +15,14 @@
 </template>
 <script>
   import {mapGetters, mapMutations} from 'vuex'
+  import {event} from './utils/event'
 
   export default {
     name: 'app',
     computed: {
       ...mapGetters([
-        'fullScreen'
+        'fullScreen',
+        'focus'
       ])
     },
     data() {
@@ -41,7 +43,9 @@
           return
         }
         const name = this.$router.currentRoute.name
-        if (name === 'recommend' || name === 'singer' || name === 'rank') {
+        if (name === 'search' && this.focus) {
+          event.$emit('inputBlur')
+        } else if (name === 'recommend' || name === 'singer' || name === 'rank' || name === 'search') {
           this.showBackTip()
           // 注销返回键
           document.removeEventListener('backbutton', this.onBackKeyDown, false)
