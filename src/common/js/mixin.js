@@ -25,3 +25,16 @@ export const playListMixin = {
     }
   }
 }
+
+export const searchMixin = {
+  data() {
+    return {
+      refreshDelay: 120
+    }
+  },
+  methods: {
+    blurInput() {
+      this.$refs.searchBox.blur()
+    }
+  }
+}

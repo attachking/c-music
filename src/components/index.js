@@ -9,6 +9,9 @@ import songsList from '../base/songs-list/songs-list.vue'
 import player from './player/player.vue'
 import progressBar from '../base/progress-bar/progress-bar.vue'
 import progressCircle from '../base/progress-circle/progress-circle.vue'
+import suggest from '../components/suggest/suggest.vue'
+import searchBox from '../base/search-box/search-box.vue'
+import noResult from '../base/no-result/no-result.vue'
 
 let components = [
   mHeader,
@@ -21,7 +24,10 @@ let components = [
   songsList,
   player,
   progressBar,
-  progressCircle
+  progressCircle,
+  suggest,
+  searchBox,
+  noResult
 ]
 
 export default {
