@@ -9,7 +9,7 @@ const state = {
   playList: [],
   sequenceList: [],
   mode: playMode.sequence,
-  currentIndex: 0,
+  currentIndex: -1,
   disc: {},
   topList: []
 }

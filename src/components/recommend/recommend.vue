@@ -57,8 +57,6 @@
           if (data.code === ERR_OK) {
             this.sliders = data.data.slider
           }
-        }).catch(err => {
-          console.log(err)
         })
       },
       loadImage() {

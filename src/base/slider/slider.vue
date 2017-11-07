@@ -103,7 +103,8 @@
           this.play()
         }
         window.addEventListener('resize', () => {
-          if (!this.slider) return
+          // 只有在本页面监控到resize事件时执行
+          if (!this.slider || this.$route.name !== 'recommend') return
           this.initWidth(true)
           this.slider.refresh()
         })

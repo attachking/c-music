@@ -34,9 +34,11 @@
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
       }),
+      // 设备准备完毕后
       onDeviceReady() {
         document.addEventListener('backbutton', this.onBackKeyDown, false)
       },
+      // 监听返回键
       onBackKeyDown() {
         if (this.fullScreen) {
           this.setFullScreen(false)
@@ -46,12 +48,13 @@
         if (name === 'search' && this.focus) {
           event.$emit('inputBlur')
         } else if (name === 'recommend' || name === 'singer' || name === 'rank' || name === 'search') {
+          // 按两次返回键退出逻辑
           this.showBackTip()
           // 注销返回键
           document.removeEventListener('backbutton', this.onBackKeyDown, false)
           // 绑定退出事件
           document.addEventListener('backbutton', this.exitApp, false)
-          // 3秒后重新注册
+          // 3秒后重新注册返回事件
           this.timer = setInterval(() => {
             this.hideTip()
             clearInterval(this.timer)
@@ -62,6 +65,7 @@
             document.addEventListener('backbutton', this.onBackKeyDown, false)
           }, 3000)
         } else {
+          // 否则执行浏览器回退
           this.$router.go(-1)
         }
       },

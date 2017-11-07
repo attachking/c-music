@@ -3,7 +3,7 @@ import * as types from './mutation-types'
 export const setAuthor = function({commit, state}, name) {
   commit(types.SET_AUTHOR, name)
 }
-
+// 选择歌单某一项进行播放
 export const selectPlay = function({commit}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list)
   commit(types.SET_PLAYLIST, list)
@@ -11,38 +11,29 @@ export const selectPlay = function({commit}, {list, index}) {
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING, true)
 }
-
+// 添加新歌曲至当前播放索引的下一个,并播放该歌曲
 export const addSong = function({commit, state}, item) {
-  let check = checkSongs(state.playList, item.id)
+  let arr = state.playList.slice(0)
+  let check = checkSongs(arr, item.id)
   if (check === true) {
-    let arr = state.playList.slice(0)
+    arr.splice(state.currentIndex + 1, 0, item)
+    commit(types.SET_CURRENT_INDEX, state.currentIndex + 1)
+  } else if (check < state.currentIndex) {
     arr.splice(state.currentIndex, 0, item)
-    commit(types.SET_SEQUENCE_LIST, arr)
-    commit(types.SET_PLAYLIST, arr)
-    commit(types.SET_PLAYING, true)
   } else {
-    commit(types.SET_CURRENT_INDEX, check)
+    arr.splice(state.currentIndex + 1, 0, item)
+    commit(types.SET_CURRENT_INDEX, state.currentIndex + 1)
   }
+  commit(types.SET_SEQUENCE_LIST, arr)
+  commit(types.SET_PLAYLIST, arr)
+  commit(types.SET_PLAYING, true)
 }
 
-export const addToNext = function({commit, state}, item) {
-  if (checkSongs(state.playList, item.id) === true) {
-    let arr = state.playList.slice(0)
-    if (state.playList.length === 0) {
-      arr.splice(0, 0, item)
-    } else {
-      arr.splice(state.currentIndex + 1, 0, item)
-    }
-    commit(types.SET_SEQUENCE_LIST, arr)
-    commit(types.SET_PLAYLIST, arr)
-    commit(types.SET_PLAYING, true)
-  }
-}
-
-// 防止添加重复歌曲
+// 防止添加重复歌曲,去除重复歌曲
 function checkSongs(list, id) {
   for (let i = 0; i < list.length; i++) {
     if (id === list[i].id) {
+      list.splice(i, 1)
       return i
     }
   }

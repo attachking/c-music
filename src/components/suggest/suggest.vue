@@ -67,6 +67,7 @@
           if (res.code === ERR_OK) {
             if (res.data.song.curpage === 1) {
               this.result = this.getResult(res.data)
+              this.$refs.suggest.scrollTo(0, 0)
             } else {
               this.result = this.result.concat(this.normalizeSongs(res.data.song.list))
             }
