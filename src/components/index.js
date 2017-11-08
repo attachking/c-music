@@ -12,6 +12,8 @@ import progressCircle from '../base/progress-circle/progress-circle.vue'
 import suggest from '../components/suggest/suggest.vue'
 import searchBox from '../base/search-box/search-box.vue'
 import noResult from '../base/no-result/no-result.vue'
+import searchList from '../base/search-list/search-list.vue'
+import confirm from '../base/confirm/confirm.vue'
 
 let components = [
   mHeader,
@@ -27,7 +29,9 @@ let components = [
   progressCircle,
   suggest,
   searchBox,
-  noResult
+  noResult,
+  searchList,
+  confirm
 ]
 
 export default {

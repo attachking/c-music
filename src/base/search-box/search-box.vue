@@ -1,7 +1,7 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" v-model="query" class="box" :placeholder="placeholder" @focus="focus"/>
+    <input ref="query" v-model.trim="query" class="box" :placeholder="placeholder" @focus="focus"/>
     <i @click="clear" v-show="query" class="icon-dismiss"></i>
   </div>
 </template>
@@ -47,7 +47,7 @@
       })
       this.$watch('query', debounce((newVal) => {
         this.$emit('input', newVal)
-      }, 200))
+      }, 500))
       event.$on('inputBlur', () => {
         this.setFocus(false)
         this.blur()

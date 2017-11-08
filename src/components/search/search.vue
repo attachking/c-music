@@ -14,22 +14,22 @@
               </li>
             </ul>
           </div>
-          <!--<div class="search-history" v-show="searchHistory.length">
+          <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
-              <span @click="showConfirm" class="clear">
+              <span class="clear" @click="showConfirm">
                 <i class="icon-clear"></i>
               </span>
             </h1>
             <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
-          </div>-->
+          </div>
         </div>
       </scroll>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
       <suggest @listScroll="blurInput" @select="saveSearch" ref="suggest" :query="query"></suggest>
     </div>
-    <!--<confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>-->
+    <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
     <router-view></router-view>
   </div>
 </template>
@@ -37,9 +37,15 @@
   import {playListMixin, searchMixin} from '../../common/js/mixin'
   import {jsonp} from '../../utils/http'
   import {ERR_OK} from '../../utils/config'
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     mixins: [playListMixin, searchMixin],
+    computed: {
+      ...mapGetters([
+        'searchHistory'
+      ])
+    },
     data() {
       return {
         query: '',
@@ -48,6 +54,11 @@
       }
     },
     methods: {
+      ...mapActions([
+        'insertHistory',
+        'deleteSearch',
+        'removeAllSearch'
+      ]),
       handlePlayList(list) {
         const bottom = list.length > 0 ? '60px' : 0
         this.$refs.searchResult.style.bottom = bottom
@@ -68,9 +79,19 @@
         })
       },
       saveSearch() {
+        this.insertHistory(this.query)
       },
       addQuery(k) {
         this.query = k
+      },
+      deleteSearchHistory(i) {
+        this.deleteSearch(i)
+      },
+      clearSearchHistory() {
+        this.removeAllSearch()
+      },
+      showConfirm() {
+        this.$refs.confirm.show()
       }
     },
     created() {

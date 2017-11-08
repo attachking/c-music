@@ -143,6 +143,7 @@
         } else {
           this.addSong(item)
         }
+        this.$emit('select', item)
       },
       ...mapActions([
         'addSong'
@@ -153,10 +154,12 @@
     },
     watch: {
       query(newVal) {
-        this.page = 1
-        this.result = []
-        this.hasMore = true
-        this.search(newVal)
+        if (newVal !== '') {
+          this.page = 1
+          this.result = []
+          this.hasMore = true
+          this.search(newVal)
+        }
       }
     }
   }

@@ -386,7 +386,7 @@
         if (newVal) {
           setTimeout(() => {
             this.$refs.lyricList.refresh()
-            this.currentLyric.seek(this.currentTime * 1000)
+            this.currentLyric && this.currentLyric.seek(this.currentTime * 1000)
           }, 20)
         }
       }

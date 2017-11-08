@@ -33,6 +33,9 @@ const mutations = {
   },
   [types.SET_FOCUS](state, o) {
     state.focus = o
+  },
+  [types.SET_SEARCH_HISTORY](state, o) {
+    state.searchHistory = o
   }
 }
 

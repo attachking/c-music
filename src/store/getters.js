@@ -19,3 +19,5 @@ export const disc = state => state.disc
 export const topList = state => state.topList
 
 export const focus = state => state.focus
+
+export const searchHistory = state => state.searchHistory

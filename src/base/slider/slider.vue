@@ -111,6 +111,9 @@
       }, 20)
     },
     activated() {
+      // 再次激活本页时重新计算宽度
+      this.initWidth(true)
+      this.slider.refresh()
       if (this.autoPlay) {
         this.play()
       }
