@@ -9,8 +9,10 @@ export const selectPlay = function({commit}, {list, index}) {
   commit(types.SET_SEQUENCE_LIST, list)
   commit(types.SET_PLAYLIST, list)
   commit(types.SET_CURRENT_INDEX, index)
-  commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING, true)
+  setTimeout(() => {
+    commit(types.SET_FULL_SCREEN, true)
+  }, 300)
 }
 // 添加新歌曲至当前播放索引的下一个,并播放该歌曲
 export const addSong = function({commit, state}, item) {

@@ -42,6 +42,11 @@
   export default {
     mixins: [playListMixin, searchMixin],
     computed: {
+      shortcut: {
+        get() {
+          return this.hotKey.concat(this.searchHistory)
+        }
+      },
       ...mapGetters([
         'searchHistory'
       ])
@@ -50,7 +55,17 @@
       return {
         query: '',
         hotKey: [],
-        shortcut: []
+        refreshDelay: 200
+      }
+    },
+    watch: {
+      query(newVal) {
+        // 清空搜索内容时同样刷新搜索历史列表
+        if (newVal === '') {
+          setTimeout(() => {
+            this.shortcut.refresh()
+          }, 20)
+        }
       }
     },
     methods: {

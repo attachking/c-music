@@ -33,3 +33,18 @@ export function post(url, data) {
     })
   })
 }
+export function get(url, data) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: url,
+      method: 'get',
+      data: data,
+      success(res) {
+        resolve(res)
+      },
+      error(err) {
+        reject(err)
+      }
+    })
+  })
+}
