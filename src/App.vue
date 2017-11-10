@@ -15,7 +15,7 @@
 </template>
 <script>
   import {mapGetters, mapMutations} from 'vuex'
-  import {event} from './utils/event'
+  import event, {EVENT_TYPES} from './utils/event'
 
   export default {
     name: 'app',
@@ -46,7 +46,7 @@
         }
         const name = this.$router.currentRoute.name
         if (name === 'search' && this.focus) {
-          event.$emit('inputBlur')
+          event.$emit(EVENT_TYPES.inputBlur)
         } else if (name === 'recommend' || name === 'singer' || name === 'rank' || name === 'search') {
           // 按两次返回键退出逻辑
           this.showBackTip()

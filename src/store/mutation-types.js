@@ -21,3 +21,7 @@ export const SET_TOP_LIST = 'SET_TOP_LIST'
 export const SET_FOCUS = 'SET_FOCUS'
 
 export const SET_SEARCH_HISTORY = 'SET_SEARCH_HISTORY'
+
+export const SET_FAVORITE = 'SET_FAVORITE'
+
+export const SET_PLAY_HISTORY = 'SET_PLAY_HISTORY'

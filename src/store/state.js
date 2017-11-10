@@ -13,7 +13,9 @@ const state = {
   currentIndex: -1,
   disc: {},
   topList: [],
-  searchHistory: getHistory(saveTypes.searchHistory)
+  searchHistory: getHistory(saveTypes.searchHistory),
+  favorite: getHistory(saveTypes.favorite),
+  playHistory: getHistory(saveTypes.playHistory)
 }
 
 export default state

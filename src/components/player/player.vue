@@ -59,8 +59,8 @@
             <div class="icon i-right" :class="disabledClass">
               <i class="icon-next" @click="next"></i>
             </div>
-            <div class="icon i-right">
-              <i class="icon"></i>
+            <div class="icon i-right" @click.stop.prevent="toggleFavorite(currentSong)">
+              <i class="icon" :class="getFavoriteIcon()"></i>
             </div>
           </div>
         </div>
@@ -80,17 +80,17 @@
             <i @click.stop="play" class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showList">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
-    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime" @error="error"
-           @ended="end"></audio>
+    <play-list v-model="showPlayList"></play-list>
+    <audio :src="currentSong.url" ref="audio" @play="ready" @timeupdate="updateTime" @error="error" @ended="end"></audio>
   </div>
 </template>
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
   import animations from 'create-keyframe-animation'
   import {prefixStyle} from '../../common/js/dom'
   import {playMode} from '../../utils/config'
@@ -108,7 +108,8 @@
         currentLyric: null,
         currentShow: 'cd',
         currentLineNum: 0,
-        playingLyric: ''
+        playingLyric: '',
+        showPlayList: false
       }
     },
     computed: {
@@ -148,7 +149,8 @@
         'currentSong',
         'playing',
         'currentIndex',
-        'mode'
+        'mode',
+        'favorite'
       ])
     },
     created() {
@@ -209,6 +211,8 @@
         if (!this.songReady) return
         if (this.playList.length === 1) {
           this.loop()
+        } else if (this.mode === playMode.random) {
+          this.randomNext()
         } else {
           let index = this.currentIndex + 1
           if (index === this.playList.length) index = 0
@@ -232,10 +236,13 @@
           this.loop()
         } else if (this.mode === playMode.random) {
           // 随机播放
-          let index = Math.floor(Math.random() * this.playList.length)
-          this.setCurrentIndex(index)
-          this.songReady = false
+          this.randomNext()
         }
+      },
+      randomNext() {
+        let index = Math.floor(Math.random() * this.playList.length)
+        this.setCurrentIndex(index)
+        this.songReady = false
       },
       loop() {
         this.$refs.audio.currentTime = 0
@@ -347,12 +354,28 @@
       play() {
         this.setPlaying(!this.playing)
       },
+      showList() {
+        this.showPlayList = true
+      },
+      getFavoriteIcon() {
+        let index = this.favorite.findIndex((item) => {
+          return this.currentSong.id === item.id
+        })
+        if (index === -1) {
+          return 'icon-not-favorite'
+        } else {
+          return 'icon-favorite'
+        }
+      },
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
         setPlaying: 'SET_PLAYING',
         setCurrentIndex: 'SET_CURRENT_INDEX',
         setMode: 'SET_MODE'
-      })
+      }),
+      ...mapActions([
+        'toggleFavorite'
+      ])
     },
     watch: {
       playing(newVal) {
@@ -385,6 +408,7 @@
       fullScreen(newVal) {
         if (newVal) {
           setTimeout(() => {
+            // 全屏后刷新歌词
             this.$refs.lyricList.refresh()
             this.currentLyric && this.currentLyric.seek(this.currentTime * 1000)
           }, 20)

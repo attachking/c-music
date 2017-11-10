@@ -7,7 +7,7 @@
 </template>
 <script>
   import {debounce} from '../../common/js/clazz'
-  import {event} from '../../utils/event'
+  import event, {EVENT_TYPES} from '../../utils/event'
   import {mapMutations} from 'vuex'
 
   export default {
@@ -48,7 +48,7 @@
       this.$watch('query', debounce((newVal) => {
         this.$emit('input', newVal)
       }, 500))
-      event.$on('inputBlur', () => {
+      event.$on(EVENT_TYPES.inputBlur, () => {
         this.setFocus(false)
         this.blur()
       })

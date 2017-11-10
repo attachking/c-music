@@ -1,4 +1,5 @@
 import * as types from './mutation-types'
+import {insertPlayHistory, getHistory, saveTypes} from '../common/js/storage'
 
 const mutations = {
   [types.SET_SINGER](state, o) {
@@ -23,6 +24,10 @@ const mutations = {
     state.mode = o
   },
   [types.SET_CURRENT_INDEX](state, o) {
+    if (o >= 0) {
+      insertPlayHistory(state.playList[o])
+      state.playHistory = getHistory(saveTypes.playHistory)
+    }
     state.currentIndex = o
   },
   [types.SET_DISC](state, o) {
@@ -36,6 +41,12 @@ const mutations = {
   },
   [types.SET_SEARCH_HISTORY](state, o) {
     state.searchHistory = o
+  },
+  [types.SET_FAVORITE](state, o) {
+    state.favorite = o
+  },
+  [types.SET_PLAY_HISTORY](state, o) {
+    state.playHistory = o
   }
 }
 

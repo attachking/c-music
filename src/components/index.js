@@ -14,6 +14,10 @@ import searchBox from '../base/search-box/search-box.vue'
 import noResult from '../base/no-result/no-result.vue'
 import searchList from '../base/search-list/search-list.vue'
 import confirm from '../base/confirm/confirm.vue'
+import playList from './play-list/play-list.vue'
+import addSong from './add-song/add-song.vue'
+import switches from '../base/switches/switches.vue'
+import topTip from '../base/top-tip/top-tip.vue'
 
 let components = [
   mHeader,
@@ -31,7 +35,11 @@ let components = [
   searchBox,
   noResult,
   searchList,
-  confirm
+  confirm,
+  playList,
+  addSong,
+  switches,
+  topTip
 ]
 
 export default {
