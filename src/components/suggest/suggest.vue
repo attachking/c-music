@@ -1,5 +1,6 @@
 <template>
-  <scroll ref="suggest" class="suggest" :data="result" :pullup="true" :beforeScroll="true" @scrollToEnd="searchMore" @beforeScroll="listScroll">
+  <scroll ref="suggest" class="suggest" :data="result" :pullup="true" :beforeScroll="true" @scrollToEnd="searchMore"
+          @beforeScroll="listScroll">
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
         <div class="icon">
@@ -35,6 +36,11 @@
       query: {
         type: String,
         default: ''
+      },
+      // 点击歌曲是否自动跳转至下一首
+      autoNext: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -141,12 +147,17 @@
             name: item.singername
           }))
         } else {
-          this.addSong(item)
+          if (this.autoNext) {
+            this.addPlayList(item)
+          } else {
+            this.addSong(item)
+          }
         }
         this.$emit('select', item)
       },
       ...mapActions([
-        'addSong'
+        'addSong',
+        'addPlayList'
       ]),
       ...mapMutations({
         setSinger: 'SET_SINGER'
@@ -168,35 +179,35 @@
   @import "../../common/styles/_vars.less";
   @import "../../common/styles/_mixin.less";
 
-  .suggest{
+  .suggest {
     height: 100%;
     overflow: hidden;
-    .suggest-list{
+    .suggest-list {
       padding: 0 30px;
-      .suggest-item{
+      .suggest-item {
         display: flex;
         align-items: center;
         padding-bottom: 20px;
       }
-      .icon{
+      .icon {
         flex: 0 0 30px;
         width: 30px;
-        [class^="icon-"]{
+        [class^="icon-"] {
           font-size: 14px;
           color: @color-text-d;
         }
       }
-      .name{
+      .name {
         flex: 1;
         font-size: @font-size-medium;
         color: @color-text-d;
         overflow: hidden;
-        .text{
+        .text {
           .no-wrap()
         }
       }
     }
-    .no-result-wrapper{
+    .no-result-wrapper {
       position: absolute;
       width: 100%;
       top: 50%;

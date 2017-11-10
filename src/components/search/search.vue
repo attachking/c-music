@@ -37,7 +37,6 @@
   import {playListMixin, searchMixin} from '../../common/js/mixin'
   import {jsonp} from '../../utils/http'
   import {ERR_OK} from '../../utils/config'
-  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     mixins: [playListMixin, searchMixin],
@@ -46,10 +45,7 @@
         get() {
           return this.hotKey.concat(this.searchHistory)
         }
-      },
-      ...mapGetters([
-        'searchHistory'
-      ])
+      }
     },
     data() {
       return {
@@ -63,17 +59,12 @@
         // 清空搜索内容时同样刷新搜索历史列表
         if (newVal === '') {
           setTimeout(() => {
-            this.shortcut.refresh()
+            this.$refs.shortcut.refresh()
           }, 20)
         }
       }
     },
     methods: {
-      ...mapActions([
-        'insertHistory',
-        'deleteSearch',
-        'removeAllSearch'
-      ]),
       handlePlayList(list) {
         const bottom = list.length > 0 ? '60px' : 0
         this.$refs.searchResult.style.bottom = bottom
@@ -92,21 +83,6 @@
             this.hotKey = res.data.hotkey.slice(0, 10)
           }
         })
-      },
-      saveSearch() {
-        this.insertHistory(this.query)
-      },
-      addQuery(k) {
-        this.query = k
-      },
-      deleteSearchHistory(i) {
-        this.deleteSearch(i)
-      },
-      clearSearchHistory() {
-        this.removeAllSearch()
-      },
-      showConfirm() {
-        this.$refs.confirm.show()
       }
     },
     created() {

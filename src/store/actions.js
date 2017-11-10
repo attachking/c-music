@@ -101,13 +101,13 @@ export const toggleFavorite = function({commit, state}, song) {
     return item.id === song.id
   })
   if (index === -1) {
-    list.push(song)
     insertFavorite(song)
+    commit(types.SET_FAVORITE, getHistory(saveTypes.favorite))
   } else {
     list.splice(index, 1)
     removeFavorite(song)
+    commit(types.SET_FAVORITE, list)
   }
-  commit(types.SET_FAVORITE, list)
 }
 
 // 清空我喜欢的列表

@@ -74,6 +74,9 @@ export function insertPlayHistory(song) {
     list.splice(index, 1)
   }
   list.unshift(song)
+  if (list.length > 30) {
+    list.pop()
+  }
   s.setItem(saveTypes.playHistory, JSON.stringify(list))
 }
 

@@ -26,7 +26,8 @@
         </div>
       </div>
       <div class="search-result" v-show="query">
-        <suggest :query="query" :showSinger="false" @select="selectSuggest" @listScroll="blurInput"></suggest>
+        <suggest :query="query" :autoNext="true" :showSinger="false" @select="saveSearch"
+                 @listScroll="blurInput"></suggest>
       </div>
       <top-tip ref="topTip">
         <div class="tip-title">
@@ -39,9 +40,11 @@
 </template>
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import {searchMixin} from '../../common/js/mixin'
 
   export default {
     name: 'add-song',
+    mixins: [searchMixin],
     props: {
       value: {
         type: Boolean,
@@ -50,8 +53,7 @@
     },
     computed: {
       ...mapGetters([
-        'playHistory',
-        'searchHistory'
+        'playHistory'
       ]),
       showFlag: {
         get () {
@@ -73,8 +75,7 @@
           {
             name: '搜索历史'
           }
-        ],
-        refreshDelay: 200
+        ]
       }
     },
     methods: {
@@ -85,18 +86,27 @@
         this.addPlayList(song)
         this.$refs.topTip.show()
       },
-      selectSuggest(item) {
-        this.addPlayList(item)
-        this.$refs.topTip.show()
-      },
       switchItem(index) {
         this.currentIndex = index
       },
       hide() {
         this.showFlag = false
+      }
+    },
+    watch: {
+      showFlag(newVal) {
+        if (newVal) {
+          setTimeout(() => {
+            this.$refs.songList && this.$refs.songList.refresh()
+            this.$refs.searchList && this.$refs.searchList.refresh()
+          }, 20)
+        }
       },
-      blurInput() {
-        this.$refs.searchBox.blur()
+      currentIndex() {
+        setTimeout(() => {
+          this.$refs.songList && this.$refs.songList.refresh()
+          this.$refs.searchList && this.$refs.searchList.refresh()
+        }, 20)
       }
     }
   }

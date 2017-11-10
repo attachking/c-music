@@ -1,4 +1,4 @@
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export const playListMixin = {
   computed: {
@@ -32,9 +32,34 @@ export const searchMixin = {
       refreshDelay: 120
     }
   },
+  computed: {
+    ...mapGetters([
+      'searchHistory'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'insertHistory',
+      'deleteSearch',
+      'removeAllSearch'
+    ]),
     blurInput() {
       this.$refs.searchBox.blur()
+    },
+    saveSearch() {
+      this.insertHistory(this.query)
+    },
+    addQuery(k) {
+      this.query = k
+    },
+    deleteSearchHistory(i) {
+      this.deleteSearch(i)
+    },
+    clearSearchHistory() {
+      this.removeAllSearch()
+    },
+    showConfirm() {
+      this.$refs.confirm.show()
     }
   }
 }
