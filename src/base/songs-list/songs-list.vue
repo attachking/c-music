@@ -9,6 +9,9 @@
           <h2 class="name">{{song.name}}</h2>
           <p class="desc">{{getDesc(song)}}</p>
         </div>
+        <div v-if="del" class="delete" @click.stop="selectDel(song, index)">
+          <i class="icon-delete"></i>
+        </div>
       </li>
     </ul>
   </div>
@@ -22,6 +25,10 @@
         default: []
       },
       rank: {
+        type: Boolean,
+        default: false
+      },
+      del: {
         type: Boolean,
         default: false
       }
@@ -46,6 +53,9 @@
         } else {
           return ''
         }
+      },
+      selectDel(song, index) {
+        this.$emit('delete', song, index)
       }
     }
   }
@@ -99,6 +109,9 @@
           margin-top: 4px;
           color: @color-text-d;
         }
+      }
+      .delete{
+        flex: 0 0 20px;
       }
     }
   }

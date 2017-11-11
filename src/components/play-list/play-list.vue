@@ -52,8 +52,7 @@
     },
     data() {
       return {
-        refreshDelay: 200,
-        show: false
+        refreshDelay: 200
       }
     },
     computed: {
@@ -61,7 +60,8 @@
         'playList',
         'mode',
         'favorite',
-        'currentIndex'
+        'currentIndex',
+        'addSongShow'
       ]),
       showFlag: {
         get() {
@@ -80,6 +80,14 @@
         get() {
           return this.mode === playMode.random ? 'icon-random' : this.mode === playMode.sequence ? 'icon-sequence' : 'icon-loop'
         }
+      },
+      show: {
+        get() {
+          return this.addSongShow
+        },
+        set(val) {
+          this.setAddSongShow(val)
+        }
       }
     },
     methods: {
@@ -90,7 +98,8 @@
         'toggleFavorite'
       ]),
       ...mapMutations({
-        setMode: 'SET_MODE'
+        setMode: 'SET_MODE',
+        setAddSongShow: 'SET_ADD_SONG_SHOW'
       }),
       confirmClear() {
         this.deleteSongsList()

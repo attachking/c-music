@@ -1,5 +1,6 @@
 import * as types from './mutation-types'
 import {addSearchHistory, getHistory, saveTypes, removeSearchHistory, insertFavorite, removeFavorite, removeAllFavorite, deletePlayHistory, removePlayHistory} from '../common/js/storage'
+import {Song} from '../common/js/clazz'
 
 export const setAuthor = function({commit, state}, name) {
   commit(types.SET_AUTHOR, name)
@@ -102,7 +103,8 @@ export const toggleFavorite = function({commit, state}, song) {
   })
   if (index === -1) {
     insertFavorite(song)
-    commit(types.SET_FAVORITE, getHistory(saveTypes.favorite))
+    // 从localStorage里取出的列表数据不是Song的实例,因此需要对每一项new Song()
+    commit(types.SET_FAVORITE, getHistory(saveTypes.favorite).map((song) => new Song(song)))
   } else {
     list.splice(index, 1)
     removeFavorite(song)
@@ -130,7 +132,7 @@ export const deleteHistory = function({commit, state}, song) {
 // 删除所有播放历史记录
 export const removeHistory = function({commit}) {
   removePlayHistory()
-  commit(saveTypes.playHistory, [])
+  commit(types.SET_PLAY_HISTORY, [])
 }
 
 // 添加一首歌到播放列表

@@ -1,3 +1,6 @@
+const MAX_PLAY_HISTORY = 30
+const MAX_SEARCH_HISTORY = 15
+
 let s = localStorage
 
 // 保存类型
@@ -20,7 +23,7 @@ function checkItem(arr, item) {
       arr.splice(i, 1)
     }
   }
-  if (arr.length >= 15) arr.pop()
+  if (arr.length >= MAX_SEARCH_HISTORY) arr.pop()
   arr.unshift(item)
 }
 
@@ -43,7 +46,9 @@ export function removeSearchHistory(index) {
 // 添加一首歌到我喜欢
 export function insertFavorite(song) {
   let f = getHistory(saveTypes.favorite)
-  f.push(song)
+  let o = Object.assign({}, song)
+  delete o.lyric
+  f.push(o)
   s.setItem(saveTypes.favorite, JSON.stringify(f))
 }
 
@@ -73,8 +78,10 @@ export function insertPlayHistory(song) {
   if (index !== -1) {
     list.splice(index, 1)
   }
-  list.unshift(song)
-  if (list.length > 30) {
+  let o = Object.assign({}, song)
+  delete o.lyric
+  list.unshift(o)
+  if (list.length > MAX_PLAY_HISTORY) {
     list.pop()
   }
   s.setItem(saveTypes.playHistory, JSON.stringify(list))

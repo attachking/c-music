@@ -1,5 +1,6 @@
 export const EVENT_TYPES = {
-  inputBlur: 'inputBlur'
+  inputBlur: 'inputBlur',
+  confirmHide: 'confirmHide'
 }
 
 // 仿照Vue的事件系统封装一个类

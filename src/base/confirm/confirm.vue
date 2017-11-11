@@ -14,6 +14,9 @@
   </transition>
 </template>
 <script>
+  import {mapMutations} from 'vuex'
+  import event, {EVENT_TYPES} from '../../utils/event'
+
   export default {
     name: 'confirm',
     props: {
@@ -36,6 +39,9 @@
       }
     },
     methods: {
+      ...mapMutations({
+        setConfirmShow: 'SET_CONFIRM_SHOW'
+      }),
       show() {
         this.showFlag = true
       },
@@ -50,6 +56,18 @@
         this.hide()
         this.$emit('confirm')
       }
+    },
+    watch: {
+      showFlag(newVal) {
+        this.setConfirmShow(newVal)
+      }
+    },
+    created() {
+      event.$on(EVENT_TYPES.confirmHide, () => {
+        if (this.show) {
+          this.cancel()
+        }
+      })
     }
   }
 </script>

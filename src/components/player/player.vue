@@ -108,8 +108,7 @@
         currentLyric: null,
         currentShow: 'cd',
         currentLineNum: 0,
-        playingLyric: '',
-        showPlayList: false
+        playingLyric: ''
       }
     },
     computed: {
@@ -143,6 +142,14 @@
           return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
         }
       },
+      showPlayList: {
+        get() {
+          return this.playListShow
+        },
+        set(val) {
+          this.setPlayListShow(val)
+        }
+      },
       ...mapGetters([
         'fullScreen',
         'playList',
@@ -150,7 +157,8 @@
         'playing',
         'currentIndex',
         'mode',
-        'favorite'
+        'favorite',
+        'playListShow'
       ])
     },
     created() {
@@ -230,7 +238,9 @@
         this.songReady = true
       },
       end() {
-        if (this.mode === playMode.sequence) {
+        if (this.playList.length === 1) {
+          this.loop()
+        } else if (this.mode === playMode.sequence) {
           this.next()
         } else if (this.mode === playMode.loop) {
           this.loop()
@@ -371,7 +381,8 @@
         setFullScreen: 'SET_FULL_SCREEN',
         setPlaying: 'SET_PLAYING',
         setCurrentIndex: 'SET_CURRENT_INDEX',
-        setMode: 'SET_MODE'
+        setMode: 'SET_MODE',
+        setPlayListShow: 'SET_PLAY_LIST_SHOW'
       }),
       ...mapActions([
         'toggleFavorite'
