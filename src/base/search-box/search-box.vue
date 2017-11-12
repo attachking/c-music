@@ -33,6 +33,7 @@
       },
       blur() {
         this.$refs.query.blur()
+        this.setFocus(false)
       },
       focus() {
         this.setFocus(true)

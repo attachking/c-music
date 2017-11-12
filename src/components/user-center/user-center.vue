@@ -38,8 +38,10 @@
 <script>
   import {mapGetters, mapActions, mapMutations} from 'vuex'
   import {playMode} from '../../utils/config'
+  import {playListMixin} from '../../common/js/mixin'
 
   export default {
+    mixins: [playListMixin],
     data() {
       return {
         switches: [
@@ -85,6 +87,11 @@
       ...mapMutations({
         setMode: 'SET_MODE'
       }),
+      handlePlayList(list) {
+        this.$refs.listWrapper.style.bottom = list.length > 0 ? '60px' : ''
+        this.$refs.favoriteList && this.$refs.favoriteList.refresh()
+        this.$refs.playList && this.$refs.playList.refresh()
+      },
       switchItem(index) {
         this.currentIndex = index
       },
@@ -137,75 +144,75 @@
 <style scoped lang="less">
   @import "../../common/styles/_vars.less";
 
-  .user-center{
+  .user-center {
     position: fixed;
     top: 0;
     bottom: 0;
     z-index: 100;
     width: 100%;
     background: @color-background;
-    &.slide-enter-active, &.slide-leave-active{
+    &.slide-enter-active, &.slide-leave-active {
       transition: all 0.3s;
     }
-    &.slide-enter, &.slide-leave-to{
+    &.slide-enter, &.slide-leave-to {
       transform: translate3d(100%, 0, 0);
     }
-    .back{
+    .back {
       position: absolute;
       top: 0;
       left: 6px;
       z-index: 50;
-      .icon-back{
+      .icon-back {
         display: block;
         padding: 10px;
         font-size: @font-size-large-x;
         color: @color-theme;
       }
     }
-    .switches-wrapper{
+    .switches-wrapper {
       margin: 10px 0 30px 0;
     }
-    .play-btn{
+    .play-btn {
       box-sizing: border-box;
       width: 135px;
       padding: 7px 0;
       margin: 0 auto;
       text-align: center;
-      border: 1px solid  @color-text-l;
+      border: 1px solid @color-text-l;
       color: @color-text-l;
       border-radius: 100px;
       font-size: 0;
-      .icon-play{
+      .icon-play {
         display: inline-block;
         vertical-align: middle;
         margin-right: 6px;
         font-size: @font-size-medium-x;
       }
-      .text{
+      .text {
         display: inline-block;
         vertical-align: middle;
         font-size: @font-size-small;
       }
     }
-    .clear{
-      text-align:right;
+    .clear {
+      text-align: right;
       padding: 0 30px;
       height: 20px;
     }
-    .list-wrapper{
+    .list-wrapper {
       position: absolute;
       top: 130px;
       bottom: 0;
       width: 100%;
-      .list-scroll{
+      .list-scroll {
         height: 100%;
         overflow: hidden;
-        .list-inner{
+        .list-inner {
           padding: 20px 30px;
         }
       }
     }
-    .no-result-wrapper{
+    .no-result-wrapper {
       position: absolute;
       width: 100%;
       top: 50%;

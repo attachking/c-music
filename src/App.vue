@@ -46,13 +46,13 @@
       // 监听返回键
       onBackKeyDown() {
         const name = this.$router.currentRoute.name
-        if (name === 'search' && this.focus) {
+        if (this.focus) {
           // 当前如果正在调用手机输入法时，退出用户输入操作
           event.$emit(EVENT_TYPES.inputBlur)
         } else if (this.confirmShow) {
           // 当前确认窗口弹出状态时，关闭窗口
           event.$emit(EVENT_TYPES.confirmHide)
-        } if (this.fullScreen) {
+        } else if (this.fullScreen) {
           // 当播放器全屏时，退出全屏播放
           this.setFullScreen(false)
         } else if (this.addSongShow) {
