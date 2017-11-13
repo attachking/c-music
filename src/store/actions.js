@@ -7,7 +7,6 @@ export const setAuthor = function({commit, state}, name) {
 }
 // 选择歌单某一项进行播放
 export const selectPlay = function({commit, state}, {list, index}) {
-  commit(types.SET_SEQUENCE_LIST, list)
   commit(types.SET_PLAYLIST, list)
   commit(types.SET_CURRENT_INDEX, index)
   commit(types.SET_PLAYING, true)
@@ -30,7 +29,6 @@ export const addSong = function({commit, state}, item) {
     arr.splice(state.currentIndex + 1, 0, item)
     index++
   }
-  commit(types.SET_SEQUENCE_LIST, arr)
   commit(types.SET_PLAYLIST, arr)
   commit(types.SET_CURRENT_INDEX, index)
   commit(types.SET_PLAYING, true)
@@ -84,7 +82,6 @@ export const deleteSong = function({commit, state}, index) {
   }
   commit(types.SET_CURRENT_INDEX, currentIndex)
   commit(types.SET_PLAYLIST, list)
-  commit(types.SET_SEQUENCE_LIST, list)
 }
 
 // 删除列表所有歌曲
@@ -92,7 +89,6 @@ export const deleteSongsList = function({commit, state}) {
   commit(types.SET_PLAYING, false)
   commit(types.SET_CURRENT_INDEX, -1)
   commit(types.SET_PLAYLIST, [])
-  commit(types.SET_SEQUENCE_LIST, [])
 }
 
 // 添加到/删除我喜欢
@@ -149,5 +145,4 @@ export const addPlayList = function({commit, state}, song) {
   list.push(song)
   commit(types.SET_CURRENT_INDEX, currentIndex)
   commit(types.SET_PLAYLIST, list)
-  commit(types.SET_SEQUENCE_LIST, list)
 }

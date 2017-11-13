@@ -11,7 +11,7 @@
         </div>
         <scroll ref="listContent" :data="playList" class="list-content" :refreshDelay="refreshDelay">
           <transition-group ref="list" name="list" tag="ul">
-            <li :key="item.id" class="item" v-for="(item, index) in playList" @click="selectItem(item, index)">
+            <li :key="item.id" class="item" v-for="(item, index) in playList" @click="selectItem(item, index)" ref="listItem">
               <i class="current" :class="getCurrentIcon(index)"></i>
               <span class="text">{{item.name}}</span>
               <span @click.stop="toggleFavorite(item)" class="like">
@@ -136,6 +136,11 @@
       },
       changeMode() {
         this.setMode((this.mode + 1) % 3)
+      },
+      scrollToCurrent(index) {
+        setTimeout(() => {
+          this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+        }, 20)
       }
     },
     watch: {
@@ -143,7 +148,13 @@
         if (newVal) {
           setTimeout(() => {
             this.$refs.listContent.refresh()
+            this.scrollToCurrent(this.currentIndex)
           }, 20)
+        }
+      },
+      currentIndex(newVal, oldVal) {
+        if (newVal >= 0 && newVal !== oldVal) {
+          this.scrollToCurrent(newVal)
         }
       }
     }

@@ -18,6 +18,7 @@ import playList from './play-list/play-list.vue'
 import addSong from './add-song/add-song.vue'
 import switches from '../base/switches/switches.vue'
 import topTip from '../base/top-tip/top-tip.vue'
+import midTip from '../base/mid-tip/mid-tip.vue'
 
 let components = [
   mHeader,
@@ -39,7 +40,8 @@ let components = [
   playList,
   addSong,
   switches,
-  topTip
+  topTip,
+  midTip
 ]
 
 export default {
