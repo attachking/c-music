@@ -38,7 +38,6 @@
       },
       // 监听返回键
       onBackKeyDown() {
-        this.resetEvent()
         const name = this.$router.currentRoute.name
         if (this.focus) {
           // 当前如果正在调用手机输入法时，退出用户输入操作
@@ -93,6 +92,31 @@
     watch: {
       $route() {
         if (this.timer) {
+          this.resetEvent()
+        }
+      },
+      fullScreen(newVal) {
+        if (newVal) {
+          this.resetEvent()
+        }
+      },
+      focus(newVal) {
+        if (newVal) {
+          this.resetEvent()
+        }
+      },
+      playListShow(newVal) {
+        if (newVal) {
+          this.resetEvent()
+        }
+      },
+      addSongShow(newVal) {
+        if (newVal) {
+          this.resetEvent()
+        }
+      },
+      confirmShow(newVal) {
+        if (newVal) {
           this.resetEvent()
         }
       }
