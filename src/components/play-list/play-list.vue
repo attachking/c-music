@@ -110,6 +110,9 @@
       },
       deleteOne(index) {
         this.deleteSong(index)
+        if (!this.playList.length) {
+          this.showFlag = false
+        }
       },
       showConfirm() {
         this.$refs.confirm.show()

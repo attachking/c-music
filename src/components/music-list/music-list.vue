@@ -87,7 +87,7 @@
         setMode: 'SET_MODE'
       }),
       back() {
-        this.$router.back()
+        this.$router.go(-1)
       },
       scroll(pos) {
         let zIndex = 0

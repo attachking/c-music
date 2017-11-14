@@ -79,6 +79,7 @@ export const deleteSong = function({commit, state}, index) {
   }
   if (!list.length) {
     commit(types.SET_PLAYING, false)
+    currentIndex = -1
   }
   commit(types.SET_CURRENT_INDEX, currentIndex)
   commit(types.SET_PLAYLIST, list)

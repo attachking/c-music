@@ -26,6 +26,11 @@
         'confirmShow'
       ])
     },
+    data() {
+      return {
+        isActive: true
+      }
+    },
     methods: {
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN',
@@ -35,10 +40,12 @@
       // 设备准备完毕后
       onDeviceReady() {
         document.addEventListener('backbutton', this.onBackKeyDown, false)
+        document.addEventListener('menubutton', this.onBackKeyDown, false)
       },
       // 监听返回键
       onBackKeyDown() {
         const name = this.$router.currentRoute.name
+        if (!this.isActive) return
         if (this.focus) {
           // 当前如果正在调用手机输入法时，退出用户输入操作
           event.$emit(EVENT_TYPES.inputBlur)
@@ -59,8 +66,10 @@
           this.showBackTip()
           // 注销返回键
           document.removeEventListener('backbutton', this.onBackKeyDown, false)
+          document.removeEventListener('menubutton', this.onBackKeyDown, false)
           // 绑定退出事件
           document.addEventListener('backbutton', this.exitApp, false)
+          document.addEventListener('menubutton', this.exitApp, false)
           // 3秒后重新注册返回事件
           this.timer = setInterval(() => {
             this.resetEvent()
@@ -85,8 +94,18 @@
         this.timer = null
         // 注销返回键
         document.removeEventListener('backbutton', this.exitApp, false)
+        document.removeEventListener('menubutton', this.exitApp, false)
         // 返回键
         document.addEventListener('backbutton', this.onBackKeyDown, false)
+        document.addEventListener('menubutton', this.onBackKeyDown, false)
+      },
+      pause() {
+        this.isActive = false
+      },
+      resume() {
+        setTimeout(() => {
+          this.isActive = true
+        }, 1000)
       }
     },
     watch: {
@@ -123,6 +142,8 @@
     },
     created() {
       document.addEventListener('deviceready', this.onDeviceReady, false)
+      document.addEventListener('pause', this.pause, false)
+      document.addEventListener('resume', this.resume, false)
     }
   }
 </script>

@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="search-result" v-show="query">
-        <suggest :query="query" :autoNext="true" :showSinger="false" @select="saveSearch"
+        <suggest :query="query" :autoNext="true" :showSinger="false" @select="searchSelect"
                  @listScroll="blurInput"></suggest>
       </div>
       <top-tip ref="topTip">
@@ -91,6 +91,10 @@
       },
       hide() {
         this.showFlag = false
+      },
+      searchSelect() {
+        this.saveSearch()
+        this.$refs.topTip.show()
       }
     },
     watch: {
