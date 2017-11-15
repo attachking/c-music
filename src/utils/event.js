@@ -1,6 +1,7 @@
 export const EVENT_TYPES = {
   inputBlur: 'inputBlur',
-  confirmHide: 'confirmHide'
+  confirmHide: 'confirmHide',
+  fullImg: 'fullImg'
 }
 
 // 仿照Vue的事件系统封装一个类
@@ -13,8 +14,7 @@ class Event {
     if (typeof this._listener[name] === 'undefined') {
       this._register(name)
     }
-    let i = 0
-    for (; i < this._listener[name].length; i++) {
+    for (let i = 0; i < this._listener[name].length; i++) {
       if (typeof this._listener[name][i] === 'function') {
         this._listener[name][i](args)
       }
@@ -25,8 +25,7 @@ class Event {
     if (typeof this._listener[name] === 'undefined') {
       this._register(name)
     }
-    let i = 0
-    for (; i < this._listener[name].length; i++) {
+    for (let i = 0; i < this._listener[name].length; i++) {
       if (this._listener[name] === fn) {
         return 'Event already exists'
       }
@@ -37,8 +36,7 @@ class Event {
   $off(name, fn) {
     if (this._listener[name]) {
       if (typeof fn === 'function') {
-        let i = 0
-        for (; i < this._listener[name].length; i++) {
+        for (let i = 0; i < this._listener[name].length; i++) {
           if (this._listener[name][i] === fn) {
             this._listener[name].splice(i, 1)
             break

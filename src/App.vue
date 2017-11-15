@@ -9,6 +9,7 @@
     </transition>
     <play></play>
     <mid-tip text="再按一次退出" ref="midTip"></mid-tip>
+    <full-img></full-img>
   </div>
 </template>
 <script>

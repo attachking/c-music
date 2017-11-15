@@ -19,6 +19,7 @@ import addSong from './add-song/add-song.vue'
 import switches from '../base/switches/switches.vue'
 import topTip from '../base/top-tip/top-tip.vue'
 import midTip from '../base/mid-tip/mid-tip.vue'
+import fullImg from '../base/full-img/full-img.vue'
 
 let components = [
   mHeader,
@@ -41,7 +42,8 @@ let components = [
   addSong,
   switches,
   topTip,
-  midTip
+  midTip,
+  fullImg
 ]
 
 export default {

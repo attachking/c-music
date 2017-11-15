@@ -29,7 +29,7 @@
               <div v-if="currentLyric">
                 <p ref="lyricLine" class="text" :class="{'current': currentLineNum === index}"
                    v-for="(line, index) in currentLyric.lines">{{line.txt}}</p>
-                <p class="text" v-if="!currentLyric.lines.length">暂无歌词</p>
+                <p class="text" v-if="!currentLyric.lines.length">{{playingLyric}}</p>
               </div>
             </div>
           </scroll>
@@ -298,7 +298,7 @@
         if (lineNum > 5) {
           this.$refs.lyricList.scrollToElement(this.$refs.lyricLine[lineNum - 5], 1000)
         } else {
-          this.$refs.lyricList.scrollTo(0, 0)
+          this.$refs.lyricList.scrollToElement(this.$refs.lyricLine[0], 1000)
         }
       },
       middleTouchStart(e) {

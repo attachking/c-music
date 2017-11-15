@@ -8,10 +8,12 @@ import './common/styles/index.less'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
 import store from './store'
+import directive from './common/js/directive'
 
 fastclick.attach(document.body)
 
 Vue.use(components)
+Vue.use(directive)
 Vue.use(VueLazyLoad, {
   loading: require('./assets/default.png')
 })
