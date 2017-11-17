@@ -26,13 +26,12 @@
         </div>
       </div>
       <div class="search-result" v-show="query">
-        <suggest :query="query" :autoNext="true" :showSinger="false" @select="searchSelect"
-                 @listScroll="blurInput"></suggest>
+        <suggest :query="query" :autoNext="true" :showSinger="false" @select="searchSelect" @listScroll="blurInput"></suggest>
       </div>
       <top-tip ref="topTip">
         <div class="tip-title">
           <i class="icon-ok"></i>
-          <span class="text">1首歌曲已经添加到播放列表</span>
+          <span class="text">{{text}}&nbsp;已经添加到播放列表</span>
         </div>
       </top-tip>
     </div>
@@ -75,7 +74,8 @@
           {
             name: '搜索历史'
           }
-        ]
+        ],
+        text: ''
       }
     },
     methods: {
@@ -84,6 +84,7 @@
       ]),
       selectSong(song, index) {
         this.addPlayList(song)
+        this.text = song.name
         this.$refs.topTip.show()
       },
       switchItem(index) {
@@ -92,8 +93,9 @@
       hide() {
         this.showFlag = false
       },
-      searchSelect() {
+      searchSelect(song) {
         this.saveSearch()
+        this.text = song.name
         this.$refs.topTip.show()
       }
     },
